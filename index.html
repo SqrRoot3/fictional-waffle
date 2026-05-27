@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ASEAN Energy Library</title>
     <style>
-        /* CSS for Styling and Responsiveness */
         :root {
             --primary-color: #0056b3;
             --bg-color: #f4f7f6;
@@ -27,6 +26,7 @@
             color: white;
             padding: 20px;
             text-align: center;
+            position: relative; 
         }
 
         .search-container {
@@ -65,6 +65,7 @@
             padding: 20px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             transition: transform 0.2s ease-in-out;
+            cursor: pointer;
         }
 
         .card:hover {
@@ -79,13 +80,12 @@
             padding-bottom: 10px;
         }
 
-        .card p, .card ul {
-            font-size: 0.95rem;
-            color: #555;
-        }
-
-        .card ul {
-            padding-left: 20px;
+        .card img {
+            width: 100%;
+            height: 200px; 
+            object-fit: cover; 
+            border-radius: 8px;
+            margin-bottom: 15px;
         }
 
         .cite {
@@ -94,96 +94,366 @@
             font-weight: bold;
         }
 
+        .page-content {
+            display: none; 
+        }
+
+        #articleView {
+            display: none; 
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .article-container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 40px;
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .article-container h2 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-top: 0;
+            border-bottom: 3px solid var(--bg-color);
+            padding-bottom: 15px;
+        }
+
+        .article-container img {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .back-btn {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: transparent;
+            color: white;
+            border: 2px solid white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.2s;
+        }
+
+        .back-btn:hover {
+            background-color: rgba(255,255,255,0.2);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        h3 {
+            background-color: #ff8c00; /* A nice standard orange */
+            color: white; /* Makes the text easier to read against orange */
+            padding: 10px 15px; /* Adds space inside the orange box so text isn't cramped */
+            border-radius: 5px; /* Optional: slightly rounds the corners */
+        }
+        
         /* Mobile Adjustments */
         @media (max-width: 768px) {
             header h1 {
                 font-size: 1.5rem;
+                margin-top: 40px; 
             }
-            .container {
-                grid-template-columns: 1fr;
+            .back-btn {
+                top: 20px;
+                transform: none;
+            }
+            .article-container {
+                padding: 20px;
+                margin: 15px;
             }
         }
+        
+        /* Core Table Styling (Adds borders and the blue top row) */
+        table {
+            width: 100%;
+            border-collapse: collapse; 
+            margin: 20px 0; 
+        }
+
+        th, td {
+            border: 1px solid #ddd; 
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--primary-color); /* This makes the top row blue */
+            color: white;
+        }
+
+        /* Makes alternating rows slightly grey for easier reading */
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        /* Makes the first vertical column orange */
+        td:first-child {
+            background-color: #ff8c00;
+            color: white; 
+            font-weight: bold; /* Optional: makes the text stand out */
+        }
+
+
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>ASEAN Energy Library</h1>
-        <p>Research Findings on Bioenergy & Sustainable Power</p>
-    </header>
+    <div id="homeView">
+        <!-- ni jangan sentuh please, ni handle part header atas for home page -->
+        <header>
+            <h1>ASEAN Energy Library</h1>
+            <p>Research Findings on Bioenergy & Sustainable Power</p>
+        </header>
+        <!-- ni searchbar, kalau nak edit, edit lepas placeholder tu, kalau nak tukar bentuk bagitahu -->
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search for biomass, hydrogen, policies, etc..." onkeyup="filterCards()">
+        </div>
 
-    <div class="search-container">
-        <input type="text" id="searchInput" placeholder="Search for biomass, hydrogen, policies, etc..." onkeyup="filterCards()">
+        <!-- this is to use each library content (the cards tu) from home page--> 
+        <div class="container" id="libraryContainer">
+            
+            <div class="card" data-tags="malaysia biomass agriculture palm oil waste environment policy" onclick="openPage(this)">
+                <h2>Agricultural Waste into Bioenergy Resource</h2>
+                <p>27/06/2026</p>
+                <p class="summary">Malaysia's agricultural sector generates a vast amount of biomass annually, transforming waste into a pathway for a circular economy[cite: 3, 5]. <u>Click to read the full report.</u></p>
+                
+                <div class="page-content">
+                    
+                    <h3>Overview & Statistics</h3>
+                    <p>Malaysia's agricultural sector generates a vast amount of biomass annually, which is mainly from rice, rubber, palm oil and coconut production[cite: 3]. The large amount of biomass is usually disposed of in an environmentally harmful way such as open burning, improper landfilling or incineration[cite: 4]. The agricultural waste-to-energy method offers a pathway to a circular economy[cite: 5].</p>
+                    <ul>
+                        <li>In 2022, Total Biomass reached 182.6 million tonnes[cite: 43].</li>
+                        <li>Every year, Malaysia generates approximately 168 million tonnes of biomass, with the palm oil industry contributing the vast majority (roughly 94%)[cite: 59].</li>
+                    </ul>
+                    <img src="biomass-graph.jpeg" alt="Agricultural biomass waste diagram">
+                    <h3>Waste-to-Energy Processes</h3>
+                    <p>Agricultural biomass is converted into energy through four main technological pathways[cite: 46]:</p>
+                    <ul>
+                        <li><strong>Direct Combustion (Incineration):</strong> The most common method where biomass is burned in a boiler to produce high-pressure steam, which drives a turbine to generate electricity[cite: 47].</li>
+                        <li><strong>Anaerobic Digestion:</strong> A biochemical process where microorganisms break down organic waste in the absence of oxygen to produce biogas (methane and CO2), which can be used for heat or power[cite: 48].</li>
+                        <li><strong>Gasification:</strong> A thermochemical process that uses partial oxidation at high temperatures (typically 800°C–1400°C) to convert biomass into "syngas" (a mixture of hydrogen and carbon monoxide). [cite: 49].</li>
+                        <li><strong>Pyrolysis:</strong> The heating of biomass in the total absence of oxygen, producing bio-oil, biochar, and syngas. It is highly efficient for creating liquid fuels.</li>
+                        <li><strong>Torrefaction & Pelletization:</strong>Physical and mild heat treatments (200°C–300°C) that increase the energy density and grindability of biomass, turning it into wood pellets or briquettes for easier transport and more efficient burning. </li>
+                    </ul>
+
+                    <h3>Laws, Implementation & Environmental Impact</h3>
+                    <table>
+                        <tr>
+                            <th>Country</th>
+                            <th>Key Laws and Ploicies</th>
+                        </tr>
+
+                        <tr>
+                            <th>Malaysia </th>
+                            <th>Renewable Energy Act 2011 (Act 725); National Biomass Strategy 2020; National Energy Transition Roadmap (NETR). </th>
+                        </tr>
+
+                        <tr>
+                            <th>Cambodia </th>
+                            <th>Law on Forestry; Power Sector Vision targets 73 MW of biomass capacity by 2030. </th>
+                        </tr>
+
+                        <tr>
+                            <th>Brunei </th>
+                            <th>No specific Act; targets 10% electricity from renewable energy (RE) by 2035 under its national energy strategy. </th>
+                        </tr>
+
+                        <tr>
+                            <th>Indonesia </th>
+                            <th>Law No. 30/2007 on Energy (Energy Law); Government Regulation No. 79/2014 on National Energy Policy targets 23% RE by 2025. </th>
+                        </tr>
+
+                        <tr>
+                            <th>Myanmar </th>
+                            <th>Electricity Law 2014; National Electrification Plan (biomass used largely for rural electrification). </th>
+                        </tr>
+
+                        <tr>
+                            <th>Philippines </th>
+                            <th>Renewable Energy Act of 2008 (RA 9513); Biofuels Act of 2006 (RA 9367); Feed-in Tariff (FiT) system for biomass. </th>
+                        </tr>
+
+                        <tr>
+                            <th>Singapore </th>
+                            <th>No specific biomass law; focuses on R&D through the Sustainable Singapore Blueprint. </th>
+                        </tr>
+
+                        <tr>
+                            <th>Thailand </th>
+                            <th>Alternative Energy Development Plan (AEDP) targets 25% RE by 2021 (recently updated to higher targets in PDP 2018-2037). </th>
+                        </tr>
+
+                        <tr>
+                            <th>Vietnam </th>
+                            <th>Law on Environmental Protection 2020 (promoting circular economy); National Strategy for Renewable Energy Development to 2030. </th>
+                        </tr>
+
+                        <tr>
+                            <th>Lao PDR (Laos) </th>
+                            <th>Lao PDR (Laos) </th>
+                        </tr>
+                        <p>Across ASEAN, national laws and strategies are evolving to harness the potential of biomass. This regional shift transforms agricultural waste into a primary driver for sustainability and national prosperity.</p>
+                    </table>
+
+                    <h3>Current Implementation in Malaysia </h3>
+                    <p>Every year, Malaysia generates approximately <strong>168 million tonnes </strong> of biomass, with the palm oil industry contributing the vast majority (roughly 94%).</p>
+                    <h3>Environmental Impact</h3>
+                    <p>The implementation of this facility is estimated to save about 220,000 tonnes of CO2 per year compared to the older technology it replaces[cite: 89]. It is designed to be 10% more carbon-efficient than existing older plants in the region[cite: 90].</p>
+                    <ul>
+                        <li><strong>Capacity:</strong> As of 2020, Malaysia had reached approximately 211 MW of installed biomass power capacity. </li>
+                        <li><strong>Feed-in Tariff (FiT):</strong> The Sustainable Energy Development Authority (SEDA) manages the FiT mechanism, which allows biomass producers to sell electricity to the national grid at fixed premium prices. </li>
+                        <li><strong>Sector Focus:</strong> Implementation is concentrated in palm oil mills, which utilize Empty Fruit Bunches (EFB), mesocarp fiber, and palm shells for self-sufficient power and grid export</li>
+                    </ul>
+
+                    <h3>Environmental Impact </h3>
+                    <table>
+                        <tr>
+                            <th>Factor </th>
+                            <th>Impact Type </th>
+                            <th>Description </th>
+                        </tr>
+
+                        <tr>
+                            <th>Air Quality  </th>
+                            <th>Positive </th>
+                            <th>Reduces particulate matter (PM2.5) by eliminating open-field burning. </th>
+                        </tr>
+
+                        <tr>
+                            <th>Biodiversity </th>
+                            <th>Risk </th>
+                            <th>Potential loss of habitat if land is cleared for new "energy crops". </th>
+                        </tr>
+
+                        <tr>
+                            <th>Circular Economy </th>
+                            <th>Positive </th>
+                            <th>Transforms a disposal problem into a resource, reducing landfill pressure. </th>
+                        </tr>
+                    </table>
+                    <p>In Malaysia, these risks are mitigated through the <strong> Malaysian Sustainable Palm Oil (MSPO)</strong> certification, which ensures that the biomass used for energy does not come from deforested areas or newly converted peatlands.  </p>
+
+                    <h3>Sources</h3>
+                    <p>Sources:</p>
+                    <ul>
+                        <li>file:///C:/Users/USER/Downloads/Current%20energy%20recycling%20technology%20for%20agricultural%20waste%20in%20Malaysia%20(1).pdf  </li>
+                        <li>file:///C:/Users/USER/Downloads/FAFD-53.-Biomass-Energy-Strategy-ASEAN-2020-2030-Final-Draft-210820%20(1).pdf </li>
+                        <li>file:///C:/Users/USER/Downloads/80517-275258-3-PB%20(2).pdf  </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card" data-tags="singapore sembcorp hydrogen power plant combined cycle mitsubishi environment" onclick="openPage(this)">
+                <h2>Hydrogen-Ready Power Plant (Singapore)</h2>
+                <img src="images/sembcorp.jpg" alt="Sembcorp Power Plant" onerror="this.style.display='none'">
+                <p>27/06/2026</p>
+                <p class="summary">A new 600MW hydrogen-ready combined cycle power plant is being developed for Sembcorp in Singapore, operational by 2026[cite: 74]. <u> Click to read the full report.</u></p>
+                
+                <div class="page-content">
+                    <img src="images/sembcorp.jpg" alt="Sembcorp Plant Facility">
+                    
+                    <h3>Project Overview</h3>
+                    <p>On 24th May 2023, a consortium comprising Mitsubishi Power and Jurong Engineering Limited (JEL) has been awarded an Engineering, Procurement and Construction (EPC) contract to develop a new 600MW hydrogen-ready combined cycle power plant (CCPP) for Sembcorp Industries' fully owned subsidiary Sembcorp Cogen Pte Ltd[cite: 74]. The plant is expected to be operational by 2026[cite: 74].</p>
+                    
+                    <h3>How It Works</h3>
+                    <p>It utilizes the Mitsubishi Power M701JAC gas turbine, which is an advanced Combined Cycle Gas Turbine (CCGT)[cite: 76]. Unlike standard power plants that only produce electricity, this cogeneration plant simultaneously produces steam[cite: 77]. This steam is piped directly to industrial customers on Jurong Island for manufacturing processes, maximizing the total thermal efficiency of the fuel[cite: 78]. By using this "Combined Cycle" (burning gas + using the heat for steam), the plant achieves an efficiency of over 60%, which is significantly higher than traditional power plants[cite: 87].</p>
+
+                    <h3>Hydrogen Phasing & Blending</h3>
+                    <p>The plant doesn't run on 100% hydrogen on Day 1[cite: 79].</p>
+                    <ul>
+                        <li><strong>Phase 1 (Immediate):</strong> The plant runs primarily on Natural Gas but is technically capable of burning a blend of 30% Hydrogen by volume with zero hardware modifications[cite: 80].</li>
+                        <li><strong>Phase 2 (Future):</strong> The turbine is designed with a "provision" to be retrofitted to burn 100% Hydrogen once the regional supply chain (ammonia imports or local electrolysis) becomes commercially viable[cite: 81].</li>
+                        <li><strong>Fuel Blending:</strong> The turbine is equipped with Dry Low (DLN) combustors[cite: 83]. These are specially designed nozzles that mix hydrogen and natural gas in a way that prevents flame from traveling back into the pipe because hydrogen burns so fast[cite: 84].</li>
+                    </ul>
+
+                </div>
+            </div>
+
+        </div>
     </div>
 
-    <div class="container" id="libraryContainer">
+    <div id="articleView">
+        <header>
+            <button class="back-btn" onclick="goHome()">&#8592; Back</button>
+            <h1 id="articleTitleDisplay">Topic Title</h1>
+        </header>
         
-        <div class="card" data-tags="malaysia biomass agriculture palm oil waste">
-            <h2>Malaysia's Agricultural Biomass</h2>
-            <p>In 2022, Malaysia generated 182.6 million tonnes of total biomass <span class="cite">[cite: 7, 43]</span>. The vast majority comes from plantation biomass, which accounts for 164 million tonnes <span class="cite">[cite: 42]</span>. The palm oil industry contributes roughly 94% of this total <span class="cite">[cite: 59]</span>. Instead of environmentally harmful disposal methods like open burning, converting this agricultural waste to energy offers a pathway to a circular economy <span class="cite">[cite: 4, 5]</span>.</p>
-        </div>
-
-        <div class="card" data-tags="processes technology direct combustion anaerobic digestion gasification pyrolysis">
-            <h2>Waste-to-Energy Processes</h2>
-            <p>Agricultural biomass is converted into energy through four main technological pathways <span class="cite">[cite: 46]</span>:</p>
-            <ul>
-                <li><strong>Direct Combustion:</strong> Biomass is burned to produce high-pressure steam, which drives a turbine to generate electricity <span class="cite">[cite: 47]</span>.</li>
-                <li><strong>Anaerobic Digestion:</strong> Microorganisms break down organic waste in the absence of oxygen to produce biogas (methane and CO2) <span class="cite">[cite: 48]</span>.</li>
-                <li><strong>Gasification & Pyrolysis:</strong> Thermochemical processes that convert biomass into syngas, bio-oil, and biochar using high temperatures <span class="cite">[cite: 49, 50]</span>.</li>
-                <li><strong>Torrefaction & Pelletization:</strong> Physical and mild heat treatments that increase energy density, turning biomass into wood pellets <span class="cite">[cite: 52]</span>.</li>
-            </ul>
-        </div>
-
-        <div class="card" data-tags="asean laws policies malaysia singapore fit renewable energy">
-            <h2>ASEAN Biomass Policies</h2>
-            <p>Across ASEAN, national laws and strategies are evolving to harness the potential of biomass <span class="cite">[cite: 56]</span>. Key examples include:</p>
-            <ul>
-                <li><strong>Malaysia:</strong> Governed by the Renewable Energy Act 2011 and managed by a Feed-in Tariff (FiT) mechanism that allows producers to sell electricity to the national grid <span class="cite">[cite: 54, 61]</span>. As of 2020, Malaysia reached approximately 211 MW of installed biomass power capacity <span class="cite">[cite: 60]</span>.</li>
-                <li><strong>Singapore:</strong> Focuses primarily on R&D through the Sustainable Singapore Blueprint, as there is no specific biomass law <span class="cite">[cite: 54]</span>.</li>
-            </ul>
-        </div>
-
-        <div class="card" data-tags="singapore sembcorp hydrogen power plant combined cycle mitsubishi">
-            <h2>Sembcorp Hydrogen-Ready Plant</h2>
-            <p>A new 600MW hydrogen-ready combined cycle power plant (CCPP) is being developed for Sembcorp in Singapore, expected to be operational by 2026 <span class="cite">[cite: 74]</span>. It utilizes the Mitsubishi Power M701JAC gas turbine <span class="cite">[cite: 76]</span>. Because it simultaneously produces steam for industrial processes, the plant achieves an efficiency of over 60% <span class="cite">[cite: 77, 87]</span>.</p>
-        </div>
-
-        <div class="card" data-tags="hydrogen phases future implementation sembcorp">
-            <h2>Hydrogen Blending Implementation</h2>
-            <p>The Sembcorp plant does not run on 100% hydrogen initially <span class="cite">[cite: 79]</span>. During Phase 1, it runs primarily on Natural Gas but is capable of burning a blend of 30% Hydrogen by volume with zero hardware modifications <span class="cite">[cite: 80]</span>. In Phase 2, the turbine is designed to be retrofitted to burn 100% Hydrogen once the regional supply chain becomes commercially viable <span class="cite">[cite: 81]</span>. This is estimated to save about 220,000 tonnes of CO2 per year compared to older technology <span class="cite">[cite: 89]</span>.</p>
-        </div>
-
-        <div class="card" data-tags="environment impact biodiversity carbon neutrality circular economy mspo">
-            <h2>Environmental Impacts of Biomass</h2>
-            <p>Biomass energy has notable environmental implications:</p>
-            <ul>
-                <li><strong>Positive:</strong> It promotes carbon neutrality, improves air quality by eliminating open-field burning, and supports a circular economy by transforming disposal problems into resources <span class="cite">[cite: 65]</span>.</li>
-                <li><strong>Risks:</strong> Potential loss of biodiversity and habitat if land is cleared for new "energy crops" <span class="cite">[cite: 65]</span>. In Malaysia, this is mitigated by MSPO certification to ensure biomass does not come from deforested areas <span class="cite">[cite: 66]</span>.</li>
-            </ul>
-        </div>
-
+        <div class="article-container" id="articleBodyDisplay">
+            </div>
     </div>
 
     <script>
+     
+        const hoverSound = new Audio('click-1.mp3');
+        hoverSound.volume = 1.0; // Keep it at 20% volume so it isn't too loud
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const cards = document.querySelectorAll('.card');
+            
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    hoverSound.currentTime = 0; 
+                    hoverSound.play().catch(error => {
+                        console.log("Audio blocked by browser until user interaction.");
+                    });
+                });
+            });
+        });
+
         function filterCards() {
-            // Get the user's search input and convert to lowercase
             const input = document.getElementById('searchInput').value.toLowerCase();
-            // Get all the cards in the library
             const cards = document.querySelectorAll('.card');
 
-            // Loop through all cards
             cards.forEach(card => {
-                // Read the hidden search tags and the visible text content of the card
                 const tags = card.getAttribute('data-tags').toLowerCase();
                 const textContent = card.innerText.toLowerCase();
 
-                // If the input matches either the tags or the visible text, display it
                 if (tags.includes(input) || textContent.includes(input)) {
                     card.style.display = "block";
                 } else {
                     card.style.display = "none";
                 }
             });
+        }
+
+        function openPage(cardElement) {
+            if (navigator.vibrate) {
+                navigator.vibrate(50); 
+            }
+
+            const title = cardElement.querySelector("h2").innerText;
+            const content = cardElement.querySelector(".page-content").innerHTML;
+            
+            document.getElementById("articleTitleDisplay").innerText = title;
+            document.getElementById("articleBodyDisplay").innerHTML = content;
+            
+            document.getElementById("homeView").style.display = "none";
+            document.getElementById("articleView").style.display = "block";
+            
+            window.scrollTo(0, 0);
+        }
+
+        function goHome() {
+            if (navigator.vibrate) {
+                navigator.vibrate(25); 
+            }
+
+            document.getElementById("articleView").style.display = "none";
+            document.getElementById("homeView").style.display = "block";
+            
+            window.scrollTo(0, 0);
         }
     </script>
 </body>
